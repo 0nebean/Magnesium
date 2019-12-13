@@ -45,7 +45,7 @@ public class UpsteamNameServiceImpl extends BaseBiz<UpsteamName, UpsteamNameDao>
         List<Condition> paramList = new ArrayList<>();
 
         if (StringUtils.isNotEmpty(upsteamName)){
-            Condition condition = Condition.parseModelCondition("upsteamName@string@eq");
+            Condition condition = Condition.parseModelCondition("upsteamName@string@like");
             condition.setValue(upsteamName);
             paramList.add(condition);
         }
