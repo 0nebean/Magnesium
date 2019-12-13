@@ -144,7 +144,14 @@ export default {
       upSteamNodeInfo: [],
       routerPath: this.$route.path,
       serverInfoFrom: {
+        listenPort: '',
+        sslListenPort: '',
+        serverHost: '',
+        sslCrtKeyPath: '',
+        sslCrtPath: '',
         serverName: '',
+        upsteamNodeName: '',
+        selectedVersion: '',
         deployType: '0',
         isSsl: '0',
         isFront: '0'
@@ -159,7 +166,7 @@ export default {
             required: true,
             pattern: /^[0-9]{2,6}$/,
             message: '监听端口号输入不正确',
-            trigger: 'change'
+            trigger: 'blur'
           }
         ],
         sslListenPort: [
@@ -167,7 +174,7 @@ export default {
             required: true,
             pattern: /^[0-9]{2,6}$/,
             message: 'ssl监听端口号输入不正确',
-            trigger: 'change'
+            trigger: 'blur'
           }
         ],
         serverHost: [

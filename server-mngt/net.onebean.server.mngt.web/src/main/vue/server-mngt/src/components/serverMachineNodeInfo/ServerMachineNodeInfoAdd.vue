@@ -60,7 +60,6 @@
             prop="accessPassword">
             <i-input v-model="serverMachineNodeInfoFrom.accessPassword"
               type="password"
-              password="true"
               :disabled="serverMachineNodeInfoFrom.accessAuthType != accessAuthTypeEunmArr[0].value"
               placeholder="请输入访问密码"></i-input>
           </FormItem>

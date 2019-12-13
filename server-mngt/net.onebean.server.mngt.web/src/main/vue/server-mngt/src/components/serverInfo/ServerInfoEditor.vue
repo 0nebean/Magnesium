@@ -184,7 +184,7 @@ export default {
             required: true,
             pattern: /^[0-9]{2,6}$/,
             message: '监听端口号输入不正确',
-            trigger: 'change'
+            trigger: 'blur'
           }
         ],
         sslListenPort: [
@@ -192,7 +192,7 @@ export default {
             required: true,
             pattern: /^[0-9]{2,6}$/,
             message: 'ssl监听端口号输入不正确',
-            trigger: 'change'
+            trigger: 'blur'
           }
         ],
         serverHost: [
