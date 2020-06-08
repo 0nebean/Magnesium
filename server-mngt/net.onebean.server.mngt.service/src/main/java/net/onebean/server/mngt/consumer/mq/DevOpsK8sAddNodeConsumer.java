@@ -37,7 +37,6 @@ public class DevOpsK8sAddNodeConsumer {
             }else{
                 LOGGER.info("repeat data , do nothing!");
             }
-
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             LOGGER.error("DevOpsK8sAddNodeConsumer get err ,e = ", e);
