@@ -2,17 +2,19 @@ package net.onebean.user.mngt.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import net.onebean.user.mngt.api.model.UagOperationLogMqReq;
+import net.onebean.user.mngt.dao.UagOperatorLogDao;
+import net.onebean.user.mngt.model.UagOperatorLog;
+import net.onebean.user.mngt.common.ErrorCodesEnum;
+import net.onebean.user.mngt.service.UagOperatorLogService;
 import net.onebean.core.base.BaseBiz;
 import net.onebean.core.error.BusinessException;
 import net.onebean.core.extend.Sort;
+import net.onebean.core.form.Parse;
 import net.onebean.core.query.Condition;
 import net.onebean.core.query.Pagination;
-import net.onebean.user.mngt.common.ErrorCodesEnum;
-import net.onebean.user.mngt.dao.UagOperatorLogDao;
-import net.onebean.user.mngt.model.UagOperatorLog;
-import net.onebean.user.mngt.service.UagOperatorLogService;
-import net.onebean.user.mngt.vo.FindUagLogReq;
-import net.onebean.user.mngt.vo.UagLogVo;
+import net.onebean.user.mngt.api.model.FindUagLogReq;
+import net.onebean.user.mngt.api.model.UagLogVo;
 import net.onebean.util.CollectionUtil;
 import net.onebean.util.StringUtils;
 import org.slf4j.Logger;
@@ -30,11 +32,26 @@ import java.util.Optional;
 * @date 2019-06-27 23:45:23
 */
 @Service
-public class UagOperatorLogServiceImpl extends BaseBiz<UagOperatorLog, UagOperatorLogDao> implements UagOperatorLogService{
+public class UagOperatorLogServiceImpl extends BaseBiz<UagOperatorLog, UagOperatorLogDao> implements UagOperatorLogService {
 
 
-    private final static Logger logger = LoggerFactory.getLogger(UagOperatorLogServiceImpl.class);
-    
+    private final static Logger logger = LoggerFactory.getLogger(net.onebean.user.mngt.service.impl.UagOperatorLogServiceImpl.class);
+
+    @Override
+    public Boolean saveUagOperatorLog(UagOperationLogMqReq req) {
+        String description = Optional.of(req).map(UagOperationLogMqReq::getDescription).orElse("");
+        String appId = Optional.of(req).map(UagOperationLogMqReq::getAppName).orElse("");
+        String uagUserId = Optional.of(req).map(UagOperationLogMqReq::getUagUserId).orElse("");
+        String uagUserNickName = Optional.of(req).map(UagOperationLogMqReq::getUagUserNickName).orElse("");
+        UagOperatorLog uagOperatorLog = new UagOperatorLog();
+        uagOperatorLog.setAppName(appId);
+        uagOperatorLog.setOperatorId(Parse.toInt(uagUserId));
+        uagOperatorLog.setOperatorName(uagUserNickName);
+        uagOperatorLog.setOperatorDescription(description);
+        this.save(uagOperatorLog);
+        return true;
+    }
+
     @Override
     public List<UagLogVo> findUagLogInfo(FindUagLogReq param, Pagination page, Sort sort) {
         String operatorName = Optional.ofNullable(param).map(FindUagLogReq::getOperatorName).orElse("");

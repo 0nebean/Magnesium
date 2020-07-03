@@ -119,8 +119,8 @@ export default {
         },
         resp => {
           this.$store.commit('statusGlobalLoginLoding')
-          if (resp.data.datas.loginStatus === '1') {
-            const oauthBaseUrl = resp.data.datas.oauthBaseUrl
+          if (resp.data.data.loginStatus === '1') {
+            const oauthBaseUrl = resp.data.data.oauthBaseUrl
             window.location.href = `${oauthBaseUrl}?uagDeviceToken=${this.uagDeviceToken}`
           }
         },

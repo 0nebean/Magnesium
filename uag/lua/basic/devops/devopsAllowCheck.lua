@@ -16,7 +16,9 @@ local function isIpMatch(allowIpTable,remoteIp)
 	return bool;
 end
 
+
 --========================================================================
+
 ngx.log(ngx.DEBUG, "devops Allow Check start");
 
 local allowIps = config.get(constants.ALLOW_IPS);
@@ -29,12 +31,10 @@ ngx.log(ngx.DEBUG, "remoteIp = ["..remoteIp.."]");
 local match = isIpMatch(allowIpTable,remoteIp);
 
 if (not match) then
-	-- ip不匹配时候
-	ngx.log(ngx.ERR, "remoteIp not match allowIps");
-	comm.error4OpenApiWithCode("deny ip access",errorCodesEnum.deny_ip_access);
+    -- ip不匹配时候
+    ngx.log(ngx.ERR, "remoteIp not match allowIps");
+    comm.error4OpenApiWithCode("deny ip access",errorCodesEnum.deny_ip_access);
 end
 
 ngx.log(ngx.DEBUG, "remoteIp match allowIps, devops Allow Check done!");
-
-
 

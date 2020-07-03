@@ -1,8 +1,8 @@
 package net.onebean.user.mngt.dao;
 
 
-import net.onebean.core.base.BaseDao;
 import net.onebean.user.mngt.model.UagOperatorLog;
+import net.onebean.core.base.BaseDao;
 
 /**
 * @author 0neBean

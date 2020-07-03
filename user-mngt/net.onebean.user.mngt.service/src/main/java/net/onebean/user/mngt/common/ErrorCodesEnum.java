@@ -4,7 +4,7 @@ package net.onebean.user.mngt.common;
 /**
  * 错误码定义
  * @author 0neBean
- * 1-4位 1104 代表 用户管理中心
+ * 1-4位 1101 代表 用户管理中心
  * 异常类型：5～6位，标识数据库、接口、缓存、权限等
  *	01-参数异常，参数有效性校验错误，在接口的response 的msg中请将校验有问题的参数返回给调用方；
  *	02-数据库异常，操作数据库异常，log的message中要有sql、参数信息，sql如果能在堆栈中体现，可以不放在message中；
@@ -21,32 +21,33 @@ package net.onebean.user.mngt.common;
 public enum ErrorCodesEnum {
     SUSSESS("0",""),
     //01
-    REQUEST_PARAM_ERROR("1104010001","请求参数校验异常"),
+    REQUEST_PARAM_ERROR("1101010001","请求参数校验异常"),
     //02
-    NONE_QUERY_DATA("1104020001","没有对应的数据"),
-    INSERT_DATA_ERROR("1104020002","插入数据失败"),
-    DIRTY_DATA_ERR("1104020003","脏数据异常"),
-    REPEAT_DATA_ERR("1104020004","已有重复的数据"),
+    NONE_QUERY_DATA("1101020001","没有对应的数据"),
+    INSERT_DATA_ERROR("1101020002","插入数据失败"),
+    DIRTY_DATA_ERR("1101020003","脏数据异常"),
+    REPEAT_DATA_ERR("1101020004","已有重复的数据"),
     //03,
-    PUT_CACHE_ERR("1104030001","插入redis数据失败"),
-    GET_CACHE_ERR("1104030002","获取redis数据失败"),
-    DELETE_CACHE_ERR("1104030003","删除redis数据失败"),
+    PUT_CACHE_ERR("1101030001","插入redis数据失败"),
+    GET_CACHE_ERR("1101030002","获取redis数据失败"),
+    DELETE_CACHE_ERR("1101030003","删除redis数据失败"),
     //05
-    CLOUD_API_ERROR("1104050001","远程调用接口失败"),
+    READ_VALUE_FROM_APOLLO("1101050001","从配置中心获取信息失败"),
+
     //06
-    NO_DATA_TO_SYNC("1104060001","没有获取到需要同步的数据"),
-    DATA_REPEAT_ERR("1104060002","已有重复的数据"),
-    DATA_BINDING_ERR("1104060003","数据被引用,无法删除,请先解除关联"),
-    INVALID_SMS_CODE("1104060004","无效的验证码"),
-    INVALID_ACCOUNT("1104060005","无效的账户"),
-    INVALID_PASSWORD("1104060006","无效的密码"),
+    DATA_REPEAT_ERR("1101060002","已有重复的数据"),
+
+    INVALID_SMS_CODE("1101060004","无效的验证码"),
+    INVALID_ACCOUNT("1101060005","无效的账户"),
+    INVALID_PASSWORD("1101060006","无效的密码"),
     //07
-    JSON_CAST_ERROR("1104070001","序列化JSON异常"),
-    REF_ERROR("1104070002","反射对象属性异常"),
+    JSON_CAST_ERROR("1101070001","序列化JSON异常"),
+    REF_ERROR("1101070002","反射对象属性异常"),
+    TEMPLATE_ERROR("1101070003","模板生成异常"),
     //08
-    RABBIT_MQ_BUSSINES_ERR("1104080001","mq业务处理异常"),
+    RABBIT_MQ_BUSSINES_ERR("1101080001","mq业务处理异常"),
     //99
-    OTHER("1104999999","操作失败")
+    OTHER("1101999999","操作失败")
     ;
 
     private String code;

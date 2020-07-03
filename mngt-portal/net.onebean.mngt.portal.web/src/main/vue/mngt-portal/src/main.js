@@ -21,6 +21,7 @@ const router = routerConfig.initRouterGenerate
 const vuex = vuexConfig.initsStoreInstance
 
 
+
 new Vue({
   router: router,
   store: vuex,

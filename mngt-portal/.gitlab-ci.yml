@@ -33,7 +33,6 @@ docker-build:
     - tar -zxvf ./net.onebean.mngt.portal.web/target/server-$env.tar.gz -C ./app
     - cp $JAVA_HOME/jre/lib/security/cacerts ./app    
     - docker login nexus.onebean.net:5000 -u=admin -p='43118vu0r647VlfZaw3087d31U6ea1'
-    - cp $JAVA_HOME/jre/lib/security/cacerts ./app
     - docker build -t nexus.onebean.net:5000/mngt-portal:${CI_COMMIT_TAG} .
     - docker push nexus.onebean.net:5000/mngt-portal:${CI_COMMIT_TAG}
     - docker rmi nexus.onebean.net:5000/mngt-portal:${CI_COMMIT_TAG}

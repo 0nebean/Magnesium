@@ -42,4 +42,27 @@ public class ResetUserPasswordReq {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     * 操作人ID
+     */
+    private Integer operatorId;
+    public Integer getOperatorId(){
+        return this.operatorId;
+    }
+    public void setOperatorId(Integer operatorId){
+        this.operatorId = operatorId;
+    }
+
+
+    /**
+     * 操作人姓名
+     */
+    private String operatorName;
+    public String getOperatorName(){
+        return this.operatorName;
+    }
+    public void setOperatorName(String operatorName){
+        this.operatorName = operatorName;
+    }
 }

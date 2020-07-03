@@ -1,12 +1,13 @@
 package net.onebean.user.mngt.service;
 
 
+import net.onebean.user.mngt.api.model.UagOperationLogMqReq;
+import net.onebean.user.mngt.model.UagOperatorLog;
+import net.onebean.user.mngt.api.model.FindUagLogReq;
+import net.onebean.user.mngt.api.model.UagLogVo;
 import net.onebean.core.base.IBaseBiz;
 import net.onebean.core.extend.Sort;
 import net.onebean.core.query.Pagination;
-import net.onebean.user.mngt.model.UagOperatorLog;
-import net.onebean.user.mngt.vo.FindUagLogReq;
-import net.onebean.user.mngt.vo.UagLogVo;
 
 import java.util.List;
 
@@ -18,6 +19,13 @@ import java.util.List;
 */
 
 public interface UagOperatorLogService extends IBaseBiz<UagOperatorLog> {
+
+    /**
+     * 报错用户操作记录
+     * @param req 参数
+     * @return bool
+     */
+    Boolean saveUagOperatorLog(UagOperationLogMqReq req);
 
     /**
      * 查询操作日志列表

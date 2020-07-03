@@ -3,7 +3,7 @@ package net.onebean.user.mngt.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import net.onebean.server.mngt.api.model.AppInfoSyncVo;
+import net.onebean.api.mngt.api.model.AppInfoSyncVo;
 import net.onebean.component.PasswordEncoder;
 import net.onebean.component.redis.IRedisService;
 import net.onebean.core.base.BaseSplitBizManual;
@@ -12,19 +12,13 @@ import net.onebean.core.extend.Sort;
 import net.onebean.core.form.Parse;
 import net.onebean.core.query.Condition;
 import net.onebean.core.query.Pagination;
-import net.onebean.server.mngt.api.model.SendLoginSmsReq;
-import net.onebean.user.mngt.api.model.CheckUagLoginStatusReq;
-import net.onebean.user.mngt.api.model.CreateAccountMqReq;
-import net.onebean.user.mngt.api.model.ResetUserPasswordReq;
-import net.onebean.user.mngt.api.model.UagLoginInfo;
-import net.onebean.user.mngt.api.model.enumModel.PrivateTokenLoginFlagEnum;
+import net.onebean.user.mngt.api.model.*;
 import net.onebean.user.mngt.common.CacheConstants;
 import net.onebean.user.mngt.common.ErrorCodesEnum;
 import net.onebean.user.mngt.dao.UagUserInfoDao;
 import net.onebean.user.mngt.enumModel.IslockStatusEnum;
+import net.onebean.user.mngt.enumModel.PrivateTokenLoginFlagEnum;
 import net.onebean.user.mngt.model.UagUserInfo;
-import net.onebean.user.mngt.provider.mq.CreateAccountFanOutSender;
-import net.onebean.user.mngt.service.AppCacheInfoService;
 import net.onebean.user.mngt.service.UagUserInfoService;
 import net.onebean.user.mngt.vo.*;
 import net.onebean.util.*;
@@ -45,7 +39,7 @@ import java.util.*;
 public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagUserInfoDao> implements UagUserInfoService {
 
 
-    private final static Logger logger = LoggerFactory.getLogger(UagUserInfoServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(net.onebean.user.mngt.service.impl.UagUserInfoServiceImpl.class);
     private final static String DEFAULT_PASSWORD = "123456";
     private final static String TEMPLATE_FILE_PATH = "/account/initUagAccountTable.ftl";
     @Autowired
@@ -54,8 +48,6 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
     private IRedisService iRedisService;
     @Autowired
     private AppCacheInfoService appCacheInfoService;
-    @Autowired
-    private CreateAccountFanOutSender createAccountFanOutSender;
 
 
     @Override
@@ -127,6 +119,8 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
         String appId = Optional.ofNullable(param).map(AddAccountReq::getAppId).orElse("");
         String username = Optional.ofNullable(param).map(AddAccountReq::getUsername).orElse("");
         String password = Optional.ofNullable(param).map(AddAccountReq::getPassword).orElse("");
+        Integer operatorId = Optional.ofNullable(param).map(AddAccountReq::getOperatorId).orElse(0);
+        String operatorName = Optional.ofNullable(param).map(AddAccountReq::getOperatorName).orElse("");
         if (StringUtils.isEmpty(password)) {
             password = DEFAULT_PASSWORD;
         }
@@ -147,7 +141,8 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
             throw new BusinessException(ErrorCodesEnum.DATA_REPEAT_ERR.code(), ErrorCodesEnum.DATA_REPEAT_ERR.msg() + " account repeat");
         }
         try {
-            UagSsoUtils.setUagUserInfoByHeader(uagUserInfo);
+            uagUserInfo.setOperatorName(operatorName);
+            uagUserInfo.setOperatorId(operatorId);
             this.save(uagUserInfo, appId);
         } catch (Exception e) {
             throw new BusinessException(ErrorCodesEnum.INSERT_DATA_ERROR.code(), ErrorCodesEnum.INSERT_DATA_ERROR.msg() + " param = " + JSON.toJSONString(param, SerializerFeature.WriteMapNullValue));
@@ -157,7 +152,7 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
             throw new BusinessException(ErrorCodesEnum.INSERT_DATA_ERROR.code(), ErrorCodesEnum.INSERT_DATA_ERROR.msg() + " param = " + JSON.toJSONString(param, SerializerFeature.WriteMapNullValue));
         }
         CreateAccountMqReq req = new CreateAccountMqReq(uagUserId.toString(), username);
-        createAccountFanOutSender.send(req,appId);
+        //todo 广播用户注册消息到业务系统
         return uagUserId;
     }
 
@@ -166,7 +161,8 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
     public Boolean toggleIsLockStatus(ToggleIsLockStatusReq param) {
         String appId = Optional.ofNullable(param).map(ToggleIsLockStatusReq::getAppId).orElse("");
         String userId = Optional.ofNullable(param).map(ToggleIsLockStatusReq::getUserId).orElse("");
-
+        Integer operatorId = Optional.ofNullable(param).map(ToggleIsLockStatusReq::getOperatorId).orElse(0);
+        String operatorName = Optional.ofNullable(param).map(ToggleIsLockStatusReq::getOperatorName).orElse("");
         UagUserInfo uagUserInfo = this.findById(userId, appId);
         if (StringUtils.isEmpty(uagUserInfo)) {
             throw new BusinessException(ErrorCodesEnum.NONE_QUERY_DATA.code(), ErrorCodesEnum.NONE_QUERY_DATA.msg() + " userId is invalid");
@@ -180,7 +176,8 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
 
         isLock = isLock.equals(IslockStatusEnum.UN_LOCK.getKey()) ? IslockStatusEnum.LOCKED.getKey() : IslockStatusEnum.UN_LOCK.getKey();
         uagUserInfo.setIsLock(isLock);
-        UagSsoUtils.setUagUserInfoByHeader(uagUserInfo);
+        uagUserInfo.setOperatorName(operatorName);
+        uagUserInfo.setOperatorId(operatorId);
         this.save(uagUserInfo, appId);
 
         return true;
@@ -191,7 +188,8 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
         String appId = Optional.ofNullable(param).map(ResetUserPasswordReq::getAppId).orElse("");
         String userId = Optional.ofNullable(param).map(ResetUserPasswordReq::getUserId).orElse("");
         String password = Optional.ofNullable(param).map(ResetUserPasswordReq::getPassword).orElse("");
-
+        Integer operatorId = Optional.ofNullable(param).map(ResetUserPasswordReq::getOperatorId).orElse(0);
+        String operatorName = Optional.ofNullable(param).map(ResetUserPasswordReq::getOperatorName).orElse("");
         UagUserInfo uagUserInfo = this.findById(userId, appId);
         if (StringUtils.isEmpty(uagUserInfo)) {
             throw new BusinessException(ErrorCodesEnum.NONE_QUERY_DATA.code(), ErrorCodesEnum.NONE_QUERY_DATA.msg() + " userId is invalid");
@@ -204,7 +202,8 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
         }
 
         uagUserInfo.setPassword(password);
-        UagSsoUtils.setUagUserInfoByHeader(uagUserInfo);
+        uagUserInfo.setOperatorName(operatorName);
+        uagUserInfo.setOperatorId(operatorId);
         this.save(uagUserInfo, appId);
 
         return true;
@@ -527,12 +526,17 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
 
 
     @Override
-    public Boolean initUagAccountTable(String appId) {
+    public Boolean initUagAccountTable(InitUagAccountTableReq req) {
+        String appId =Optional.ofNullable(req).map(InitUagAccountTableReq::getAppId).orElse("");
+        if (StringUtils.isEmpty(appId)) {
+            throw new BusinessException(ErrorCodesEnum.REQUEST_PARAM_ERROR.code(), ErrorCodesEnum.REQUEST_PARAM_ERROR.msg() + "appId is empty");
+        }
+        String sql;
         try {
-            String sql = mergeTemplate(appId);
+            sql = mergeTemplate(appId);
             baseDao.InitUagAccountTable(sql);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BusinessException(ErrorCodesEnum.TEMPLATE_ERROR.code(), ErrorCodesEnum.TEMPLATE_ERROR.msg() + "initUagAccountTable sql error");
         }
         return true;
     }
@@ -552,14 +556,17 @@ public class UagUserInfoServiceImpl extends BaseSplitBizManual<UagUserInfo, UagU
         String nickName = Optional.ofNullable(request).map(UserInfoModifyReq::getNickName).orElse("");
         String id = Optional.ofNullable(request).map(UserInfoModifyReq::getId).orElse("");
         String appId = Optional.ofNullable(request).map(UserInfoModifyReq::getAppId).orElse("");
+        Integer operatorId = Optional.ofNullable(request).map(UserInfoModifyReq::getOperatorId).orElse(0);
+        String operatorName = Optional.ofNullable(request).map(UserInfoModifyReq::getOperatorName).orElse("");
 
         UagUserInfo userInfo = this.findById(id, appId);
         if (null == userInfo) {
             throw new BusinessException(ErrorCodesEnum.NONE_QUERY_DATA.code(), ErrorCodesEnum.NONE_QUERY_DATA.msg());
         }
         userInfo.setNickName(nickName);
+        userInfo.setOperatorName(operatorName);
+        userInfo.setOperatorId(operatorId);
         try {
-            UagSsoUtils.setUagUserInfoByHeader(userInfo);
             this.save(userInfo, appId);
         } catch (Exception e) {
             throw new BusinessException(ErrorCodesEnum.INSERT_DATA_ERROR.code(), ErrorCodesEnum.INSERT_DATA_ERROR.msg());

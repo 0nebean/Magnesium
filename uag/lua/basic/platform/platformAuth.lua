@@ -13,11 +13,10 @@ local jsonUtil = require("util.jsonUtil");
 local webUtil = require("util.webUtil");
 local errorCodesEnum = require("comm.errorCodesEnum");
 
-
 --[[检查访问地址是否是免登录地址]]
 local function checkUnLoginAccessWhiteList()
     local currentApiPath = ngx.ctx.uri;
-    local appId = ngx.ctx.appId;
+        local appId = ngx.ctx.appId;
     --[[use key从缓存获取 unLoginAccessWhiteList ]]
     local redisKey = constants.RS_SALES_UNLOGIN_ACCESS_WHITELIST_API;
         ngx.log(ngx.DEBUG, "openAPI checkUnLoginAccessWhiteList use key [" .. redisKey .. "] hash key ["..appId.."] get ipWhiteList from redis");
@@ -53,23 +52,23 @@ end
 
 --[[混合令牌校验]]
 local function checkHybridTokenLoginStatus(accessTokenCasheJson,appId)
-    local deviceTokenCashe = stringUtil.toStringTrim(accessTokenCasheJson["deviceToken"]);
-    ngx.ctx.deviceToken = deviceTokenCashe;
-    ngx.log(ngx.DEBUG, "checkHybridTokenLoginStatus ngx.ctx.deviceToken = ["..deviceTokenCashe.."]");
+    local deviceTokenCache = stringUtil.toStringTrim(accessTokenCasheJson["deviceToken"]);
+    ngx.ctx.deviceToken = deviceTokenCache;
+    ngx.log(ngx.DEBUG, "checkHybridTokenLoginStatus ngx.ctx.deviceToken = ["..deviceTokenCache.."]");
     --[[检查未登录访问地址是否是免登录的资源]]
     local pass = checkUnLoginAccessWhiteList();
     if not pass then
         --[[登录状态 检查有无其他设备的登录]]
         local redisDeviceTokenKey = constants.RS_SALES_LOGIN_FLAG_DEVICETOKEN_KEY..":"..appId;
-        local isSuccess, deviceTokenTable, errReturn = redisUtil.hget(redisDeviceTokenKey, deviceTokenCashe);
+        local isSuccess, deviceTokenTable, errReturn = redisUtil.hget(redisDeviceTokenKey, deviceTokenCache);
         --[[redis 里有值继续校验 否则可能 is 本地application 或基础application ]]
         if not isSuccess then
-            ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus use key [" .. redisDeviceTokenKey .. "] hashkey ["..deviceTokenCashe.."] get account from redis, failure, error message:" .. errReturn);
-            comm.errorStatusCommon("openAPI checkPrivateToken use key [" .. redisDeviceTokenKey .. "] hashkey ["..deviceTokenCashe.."] get account from redis, failure , error message:" .. errReturn);
+            ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus use key [" .. redisDeviceTokenKey .. "] hashkey ["..deviceTokenCache.."] get account from redis, failure, error message:" .. errReturn);
+            comm.errorStatusCommon("openAPI checkPrivateToken use key [" .. redisDeviceTokenKey .. "] hashkey ["..deviceTokenCache.."] get account from redis, failure , error message:" .. errReturn);
         end
 
         if (deviceTokenTable == nil or deviceTokenTable == ngx.null) then
-            ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus use key [" .. redisDeviceTokenKey .. "] hashkey ["..deviceTokenCashe.."] get account from redis, get empty value, error");
+            ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus use key [" .. redisDeviceTokenKey .. "] hashkey ["..deviceTokenCache.."] get account from redis, get empty value, error");
             --[[账号已经被登出  提示未登录]]
             comm.error4OpenApiWithCode("unlogin request",errorCodesEnum.unlogin_request);
         end
@@ -225,7 +224,6 @@ local function checkAppIdStatus()
     end
 
     local appStatus = stringUtil.toStringTrim(appInfoJson["appStatus"]);
-    local appCategory = stringUtil.toStringTrim(appInfoJson["appCategory"]);
     local tenantId = stringUtil.toStringTrim(appInfoJson["tenantId"]);
     local authType = stringUtil.toStringTrim(appInfoJson["authType"]);
     local loginType = stringUtil.toStringTrim(appInfoJson["loginType"]);
@@ -240,12 +238,6 @@ local function checkAppIdStatus()
     --[[appStatus 非空校验]]
     if (stringUtil.isBlank(appStatus)) then
         ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus appStatus is empty");
-        comm.error4OpenApiWithCode("invalid appId",errorCodesEnum.invalid_appId);
-    end
-
-    --[[appCategory 非空校验]]
-    if (stringUtil.isBlank(appCategory)) then
-        ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus appCategory is empty");
         comm.error4OpenApiWithCode("invalid appId",errorCodesEnum.invalid_appId);
     end
 
@@ -527,12 +519,12 @@ local function intiRedisConf()
 end
 
 --[[==============================================================================================]]
-
 --[[初始化redis]]
 intiRedisConf();
 --[[获取请求uri 放到全局里]]
 local uri = webUtil.getUri();
 ngx.ctx.uri = uri;
+
 --[[获取header[token]]
 local accessToken = webUtil.getReqHeader(constants.HEADER_REQUEST_ACCESSTOKEN_KEY);
 --[[获取header[appId]]
@@ -558,6 +550,7 @@ else
     --[[ip+token校验规则]]
     checkIpWhtieListAndToken(appInfoJson);
 end
+
 --[[检查uri是否合法 返回apiId]]
 local apiId,realPath,upsteamNodeName = checkApipath();
 --[[通过appId获取对应绑定的apiIds]]

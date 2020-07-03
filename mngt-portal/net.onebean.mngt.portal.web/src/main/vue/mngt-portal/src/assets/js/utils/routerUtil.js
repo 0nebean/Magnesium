@@ -1,8 +1,5 @@
-
 import routerConfig from '../router/routerConfig'
 import objectUtil from './objectUtil'
-import apiPath from '../constant/ApiPath'
-import utils from '../utils//utils'
 
 let routerUtil = {}
 
@@ -59,7 +56,22 @@ routerUtil.getPcUrlByRouterPath = function(path) {
   return pcUrl
 }
 
-routerUtil.initRouterNavBarActiveStatus = function(path){
+routerUtil.getParentPath = function(path){
+  let firstPath = this.getRouterFirstPath(path)
+  let resPath = ''
+  routerConfig.routerPath.map(items => {
+    if(items.children){
+      items.children.map(item => {
+        if (item.path === firstPath) {
+          resPath = items.path
+        }
+      })
+    }
+  })
+  return resPath
+}
+
+routerUtil.getRouterFirstPath = function(path){
   let routeList = []
   path.split('/').forEach(function(r) {
     if (r != '') {
@@ -69,25 +81,10 @@ routerUtil.initRouterNavBarActiveStatus = function(path){
   return routeList[0]
 }
 
-routerUtil.getRemoteMenu = async function (router, store) {
-  const isLoad = store.state.isLoadMenu
-  if (!isLoad) {
-    const menuArr = await utils.netUtil.postAsync(apiPath.getMenuList, {})
-    let resArr = []
-    routerConfig.routerPath.forEach(item => {
-      resArr.push(item)
-    })
-    menuArr.forEach(item => {
-      item.component = () => import('@/components/appFrame/AppFrame')
-      resArr.push(item)
-    })
-    sessionStorage.menuArr = JSON.stringify(resArr)
-    router.addRoutes(resArr)
-    store.commit('doLoadingMenu')
-  }
-  const menuArr = JSON.parse(sessionStorage.menuArr)
-  menuArr.splice(0, 1)
-  return menuArr
+routerUtil.getRouterMenu = function () {
+  let resArr = routerConfig.routerPath
+  resArr.splice(0, 1)
+  return resArr
 }
 
 export default routerUtil

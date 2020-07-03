@@ -11,7 +11,7 @@ local function returnAppInfoJson()
     local ajaxTable = {};
     ajaxTable["errCode"] = "0";
     ajaxTable["errMsg"] = "";
-    ajaxTable["datas"] = ngx.ctx.loginType;
+    ajaxTable["data"] = ngx.ctx.loginType;
     webUtil.setRespHeader("Content-Type", "application/json");
     ngx.print(jsonUtil.encode(ajaxTable));
     ngx.exit(200);
@@ -22,7 +22,7 @@ local function returnFaileJson(errMsg,errCode)
     local ajaxTable = {};
     ajaxTable["errCode"] = errCode;
     ajaxTable["errMsg"] = errMsg;
-    ajaxTable["datas"] = {};
+    ajaxTable["data"] = {};
     webUtil.setRespHeader("Content-Type", "application/json");
     ngx.print(jsonUtil.encode(ajaxTable));
     ngx.exit(200);
@@ -58,8 +58,6 @@ local function checkAppIdStatus()
     end
 
     local appStatus = stringUtil.toStringTrim(appInfoJson["appStatus"]);
-    local appCategory = stringUtil.toStringTrim(appInfoJson["appCategory"]);
-    local tenantId = stringUtil.toStringTrim(appInfoJson["tenantId"]);
     local authType = stringUtil.toStringTrim(appInfoJson["authType"]);
     local loginType = stringUtil.toStringTrim(appInfoJson["loginType"]);
 
@@ -73,12 +71,6 @@ local function checkAppIdStatus()
     --[[appStatus 非空校验]]
     if (stringUtil.isBlank(appStatus)) then
         ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus appStatus is empty");
-        returnFaileJson("invalid appId",errorCodesEnum.invalid_appId);
-    end
-
-    --[[appCategory 非空校验]]
-    if (stringUtil.isBlank(appCategory)) then
-        ngx.log(ngx.DEBUG, "openAPI checkAppIdStatus appCategory is empty");
         returnFaileJson("invalid appId",errorCodesEnum.invalid_appId);
     end
 

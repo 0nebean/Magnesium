@@ -40,7 +40,7 @@ function comm.noAuthPage(errorMessage)
 		local ajaxTable = {};
 		ajaxTable["code"] = 999;
 		ajaxTable["message"]="您目前无权限操作，服务器拒绝处理您的请求";
-		ajaxTable["datas"] = {};
+		ajaxTable["data"] = {};
 		webUtil.setRespHeader("Content-Type", "application/json");
 		ngx.print(jsonUtil.encode(ajaxTable));
 		ngx.exit(200);
@@ -73,7 +73,7 @@ function comm.errorPage(errorMessage)
 		ajaxTable["code"] = 999;
 		ajaxTable["message"]="fail";		
 		local datasTable = {};
-		ajaxTable["datas"] = datasTable;
+		ajaxTable["data"] = datasTable;
 		ngx.print(jsonUtil.encode(ajaxTable));
 		ngx.exit(200);
 	else
@@ -120,7 +120,7 @@ function comm.redirect(redirectUrl)
 		--datasTable["redirectUrl"] = redirectUrl;
 		-- ajax的时候返回的redirectUrl为固定地址
 		datasTable["WEC-REDIRECTURL"] = "/portal/login";
-		ajaxTable["datas"] = datasTable;
+		ajaxTable["data"] = datasTable;
 		webUtil.setRespHeader("Content-Type", "application/json");
 		ngx.print(jsonUtil.encode(ajaxTable));
 		ngx.exit(200);
@@ -305,7 +305,7 @@ function comm.successWithResp()
 	local ajaxTable = {};
 	ajaxTable["code"] = 0;
 	ajaxTable["message"]="";
-	ajaxTable["datas"] = {};
+	ajaxTable["data"] = {};
 	ngx.print(jsonUtil.encode(ajaxTable));
 	ngx.exit(200);
 end
@@ -317,7 +317,7 @@ function comm.error4OpenApiWithCode(errorMessage,errCode)
 	local ajaxTable = {};
 	ajaxTable["errCode"] = errCode;
 	ajaxTable["errMsg"]=errorMessage;
-	ajaxTable["datas"]={};
+	ajaxTable["data"]={};
 	webUtil.setRespHeader("Content-Type", "application/json");
 	ngx.print(jsonUtil.encode(ajaxTable));
 	ngx.exit(200);
@@ -330,7 +330,7 @@ function comm.error4OpemApiv2(errorMessage)
 	local ajaxTable = {};
 	ajaxTable["errCode"] = "999";
 	ajaxTable["errMsg"]=errorMessage;
-	ajaxTable["datas"]={};
+	ajaxTable["data"]={};
 	webUtil.setRespHeader("Content-Type", "application/json");
 	ngx.print(jsonUtil.encode(ajaxTable));
 	ngx.exit(200);

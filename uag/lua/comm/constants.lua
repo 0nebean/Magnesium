@@ -68,6 +68,11 @@ constants.PLATFORM_TYPE_OF_OTHER = "other"
 constants.PLATFORM_TYPE_OF_OTHER_CODE = "2"
 -- end，生成设备码相关内容
 
+-- begin，devOps相关内容
+constants.DEV_OPS_ADD_NODE_URI = "/devops/addNode"
+-- end，devOps相关内容
+
+
 --[[私有令牌登录标识]]
 constants.RS_SALES_LOGIN_FLAG_DEVICETOKEN_KEY = constants.UAG .. ":OPENAPI:LOGIN:FLAG:DEVICETOKEN";
 constants.RS_SALES_LOGIN_FLAG_ACCOUNT_KEY = constants.UAG .. ":OPENAPI:LOGIN:FLAG:ACCOUNT";

@@ -134,7 +134,7 @@ export default {
         this.API_PTAH.authSendLoginSms,
         { deviceToken: this.deviceToken, telPhone: telPhone },
         resp => {
-          if (resp.data.datas) {
+          if (resp.data.data) {
             this.$Message.success('已发送短信验证码')
             this.$refs.countDownButton.changeCountNumber()
           }
@@ -162,8 +162,8 @@ export default {
         },
         resp => {
           this.$store.commit('statusGlobalLoginLoding')
-          if (resp.data.datas.loginStatus === '1') {
-            let oauthBaseUrl = resp.data.datas.oauthBaseUrl
+          if (resp.data.data.loginStatus === '1') {
+            let oauthBaseUrl = resp.data.data.oauthBaseUrl
             oauthBaseUrl = `${oauthBaseUrl}?uagDeviceToken=${this.uagDeviceToken}`
             window.location.href = oauthBaseUrl
           }

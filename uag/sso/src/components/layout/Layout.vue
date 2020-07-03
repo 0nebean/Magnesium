@@ -54,14 +54,14 @@ export default {
       this.utils.netUtil.postWithAccessToken(
         this.uagAppId,
         this.uagAccessToken,
-        this.API_PTAH.authGetCurrentAppInfo,
+        this.API_PTAH.authGetCurrentAppLoginType,
         {},
         resp => {
           if (resp.data.errCode != '0') {
             this.$router.push('/err')
             return
           }
-          if (resp.data.datas == '1') {
+          if (resp.data.data == '1') {
             this.$router.push({
               path: '/sms',
               query: {

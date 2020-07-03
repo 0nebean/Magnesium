@@ -1,7 +1,8 @@
 let vuexState = {
-    appFrameHeight:'0px',
-    isLoadMenu:false,
-    uagCurrentLoginUserInfo:{}
+    globalButtonLoding:false,
+    globalScreenLoding:false,
+    userInfoListAppId:'0',
+    uagCurrentLoginUserInfo:{},
 }
 
 

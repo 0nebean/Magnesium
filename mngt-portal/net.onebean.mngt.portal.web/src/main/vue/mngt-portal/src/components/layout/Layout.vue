@@ -96,39 +96,43 @@
 </style>
 <template>
   <div class="layout">
-    <Layout :style="{minHeight: '100vh'}">
+    <Layout :style="{ minHeight: '100vh' }">
       <Header>
-        <Menu mode="horizontal"
-          theme="dark"
-          active-name="1">
-          <div class="layout-logo"
-            :style="{backgroundImage: 'url(' + logoImg + ')' }"></div>
-          <div class="layout-logo-title"><span class="logo-title">云管控台</span></div>
+        <Menu mode="horizontal" theme="dark" active-name="1">
+          <div
+            class="layout-logo"
+            :style="{ backgroundImage: 'url(' + logoImg + ')' }"
+          ></div>
+          <div class="layout-logo-title">
+            <span class="logo-title">云管控台</span>
+          </div>
           <div class="layout-nav">
-            <span class="nav-username">{{this.$store.state.uagCurrentLoginUserInfo.uagUserNickName}}</span>
-            <a class="nav-logout"
-              @click="doLogOut">
-              <Icon type="md-exit"
-                class="logout-icon"></Icon>退出登录
+            <span class="nav-username">{{
+              this.$store.state.uagCurrentLoginUserInfo.uagUserNickName
+            }}</span>
+            <a class="nav-logout" @click="doLogOut">
+              <Icon type="md-exit" class="logout-icon"></Icon>退出登录
             </a>
-
           </div>
         </Menu>
       </Header>
       <Layout>
-        <Sider hide-trigger
-          :style="{background: '#fff'}">
-          <Menu :active-name="menuActiveName"
+        <Sider hide-trigger :style="{ background: '#fff' }">
+          <Menu
+            :active-name="this.utils.routerUtil.getParentPath(this.$route.path)"
             ref="side_menu"
             theme="light"
             @on-select="routerFrame"
-            width="auto">
-            <MenuItem :name="item.path"
+            width="auto"
+          >
+            <MenuItem
+              :name="item.path"
               @click="routerFrame(item.path)"
-              v-for="(item,index) in menuList"
-              :key="index">
-            <Icon :type="item.icon"></Icon>
-            {{item.name}}
+              v-for="(item, index) in menuList"
+              :key="index"
+            >
+              <Icon :type="item.icon"></Icon>
+              {{ item.name }}
             </MenuItem>
           </Menu>
         </Sider>
@@ -150,7 +154,7 @@ export default {
   data() {
     return {
       menuList: [],
-      logoImg: logoImgResource,
+      logoImg: logoImgResource
     }
   },
   computed: {
@@ -161,11 +165,16 @@ export default {
   created: function() {},
   mounted: function() {
     this.initMenu()
-    this.utils.frameUtil.reSizeParentFrameSize(this.$store)
+    this.getCurrentLoginInfo()
   },
   methods: {
-    initMenu: async function() {
-      this.menuList =  await this.utils.routerUtil.getRemoteMenu(this.$router,this.$store)
+    getCurrentLoginInfo: function() {
+      this.utils.netUtil.post(this.API_PTAH.getCurrentUagLoginInfo, {}, resp => {
+        this.$store.commit('loadCurrentLoginUserInfo',resp.data.data) 
+      })
+    },
+    initMenu: function() {
+      this.menuList = this.utils.routerUtil.getRouterMenu()
       this.$nextTick(() => {
         this.$refs.side_menu.updateOpened()
         this.$refs.side_menu.updateActiveName()
@@ -176,7 +185,7 @@ export default {
     },
     doLogOut() {
       this.utils.netUtil.post(this.API_PTAH.logout, {}, resp => {
-        if (resp.data.datas) {
+        if (resp.data.data) {
           location.reload()
         }
       })

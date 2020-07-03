@@ -18,19 +18,15 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>net.onebean</groupId>
             <artifactId>net.onebean.core</artifactId>
-            <version>${net.onebean.core.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.onebean</groupId>
             <artifactId>net.onebean.mngt.portal.api</artifactId>
-            <version>${net.onebean.mngt.portal.api.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

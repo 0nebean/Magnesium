@@ -22,10 +22,8 @@
         <dependency>
             <groupId>net.onebean</groupId>
             <artifactId>net.onebean.user.mngt.service</artifactId>
-            <version>${net.onebean.user.mngt.service.version}</version>
         </dependency>
     </dependencies>
-
 
     <build>
         <!-- 打包后的启动jar名称 -->

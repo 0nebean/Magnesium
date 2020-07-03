@@ -13,22 +13,16 @@
     <artifactId>net.onebean.user.mngt.dao</artifactId>
     <name>net.onebean.user.mngt.dao</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
 
         <dependency>
             <groupId>net.onebean</groupId>
-            <artifactId>net.onebean.core</artifactId>
-            <version>${net.onebean.core.version}</version>
+            <artifactId>net.onebean.user.mngt.api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>net.onebean</groupId>
-            <artifactId>net.onebean.user.mngt.api</artifactId>
-            <version>${net.onebean.user.mngt.api.version}</version>
+            <artifactId>net.onebean.core</artifactId>
         </dependency>
 
     </dependencies>

@@ -1,12 +1,15 @@
 let vuexMutations = {
-  reSizeFrameHeight: function(state,appFrameHeight) {
-    state.appFrameHeight = appFrameHeight
+  setUserInfoListAppId: function (state, payload) {
+    state.userInfoListAppId = payload
   },
-  doLoadingMenu: function(state) {
-    state.isLoadMenu = true
-  },
-  loadCurrentLoginUserInfo:async function(state,uagInfo){
+  loadCurrentLoginUserInfo: async function(state, uagInfo) {
     state.uagCurrentLoginUserInfo = uagInfo
+  },
+  statusGlobalButtonLoding: async function(state) {
+    state.globalButtonLoding = !state.globalButtonLoding
+  },
+  statusGlobalScreenLoding: async function(state) {
+    state.globalScreenLoding = !state.globalScreenLoding
   }
 }
 

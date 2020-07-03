@@ -6,30 +6,62 @@
 
     <parent>
         <groupId>net.onebean</groupId>
-        <artifactId>onebean.boot.stater</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <artifactId>net.onebean.dependencies</artifactId>
+        <version>1.0.0.RELEASE</version>
     </parent>
+
 
     <artifactId>net.onebean.user.mngt</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>user-mngt</name>
-    <description>云控台-用户中心</description>
+    <description>用户管理</description>
 
     <properties>
-        <net.onebean.user.mngt.dao.version>${child.model.version}</net.onebean.user.mngt.dao.version>
-        <net.onebean.user.mngt.service.version>${child.model.version}</net.onebean.user.mngt.service.version>
-        <net.onebean.user.mngt.web.version>${child.model.version}</net.onebean.user.mngt.web.version>
-        <net.onebean.user.mngt.api.version>${api.rest.version}</net.onebean.user.mngt.api.version>
-        <net.onebean.core.version>${core.version}</net.onebean.core.version>
     </properties>
 
     <modules>
+        <module>net.onebean.user.mngt.log</module>
         <module>net.onebean.user.mngt.api</module>
         <module>net.onebean.user.mngt.dao</module>
         <module>net.onebean.user.mngt.service</module>
         <module>net.onebean.user.mngt.web</module>
     </modules>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.onebean</groupId>
+                <artifactId>net.onebean.user.mngt.service</artifactId>
+                <version>${child.model.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.onebean</groupId>
+                <artifactId>net.onebean.user.mngt.dao</artifactId>
+                <version>${child.model.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.onebean</groupId>
+                <artifactId>net.onebean.user.mngt.api</artifactId>
+                <version>${child.model.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.onebean</groupId>
+                <artifactId>net.onebean.user.mngt.log</artifactId>
+                <version>${child.model.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.onebean</groupId>
+                <artifactId>net.onebean.api.mngt.api</artifactId>
+                <version>${child.model.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

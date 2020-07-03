@@ -1,10 +1,9 @@
 package net.onebean.user.mngt.model;
+
 import net.onebean.core.extend.FiledName;
 import net.onebean.core.extend.TableName;
 import net.onebean.core.model.BaseModel;
-
 import net.onebean.core.model.InterfaceBaseDeletedModel;
-
 
 import java.sql.Timestamp;
 
