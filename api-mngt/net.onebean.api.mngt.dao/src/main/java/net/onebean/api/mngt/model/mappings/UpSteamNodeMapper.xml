@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--author 0neBean-->
+<!--description upsteam node info mapper-->
+<!--date 2019-03-01 15:25:32-->
+<mapper namespace="net.onebean.api.mngt.dao.UpSteamNodeDao">
+
+    <resultMap type="net.onebean.api.mngt.vo.UpSteamSyncNodeVo" id="upSteamSyncNodeVoMap">
+        <result property="nodeName" column="node_name"/>
+        <collection property="nodes" ofType="net.onebean.api.mngt.vo.UpSteamSyncNodeChildVo">
+            <result property="physicalPath" column="physical_path"/>
+        </collection>
+    </resultMap>
+
+
+    <update id="updateSelectedVersion">
+        UPDATE `t_upsteam_node` t SET t.`selected_version` = #{selectedVersion} WHERE  t.`node_name` = #{upSteamNodeName}
+    </update>
+
+
+    <update id="updateNodeDeprecatedTime">
+        UPDATE `t_upsteam_node` t SET t.`deprecated_time` = now() WHERE t.`selected_version` != #{selectedVersion} and t.`running_status` = '0' and t.`is_deleted` = '0' and t.`node_name` = #{upSteamNodeName}
+    </update>
+
+
+    <select id="findSyncNode" resultMap="upSteamSyncNodeVoMap">
+      SELECT t.`node_name`,t.`physical_path`
+       FROM `t_upsteam_node` t
+        WHERE t.`is_deleted` = '0'
+        AND (`deploy_type` = '0' OR (`deploy_type` = '1' AND  t.`current_version` = t.`selected_version` AND t.`running_status` = '0'))
+          GROUP BY t.`node_name`
+    </select>
+
+
+    <select id="findVersionListByNodeName" resultType="net.onebean.api.mngt.api.model.UpSteamVersionVo">
+       SELECT n.`current_version` AS `VERSION` FROM `t_upsteam_node` n WHERE n.`running_status` = '0' AND n.`deploy_type` = '1' AND n.`node_name` = #{upsteamNodeName} GROUP BY n.`current_version`
+    </select>
+
+
+    <select id="countByDevOpsK8sNotificationVo" resultType="java.lang.Integer">
+        SELECT COUNT(n.id) from `t_upsteam_node` n WHERE n.node_namespace = #{nodeNamespace} and n.current_version = #{currentVersion} and n.node_name = #{nodeName} and n.is_deleted = '0'
+    </select>
+
+
+    <select id="countStopTimeLessThan5Min" resultType="java.lang.Integer">
+        SELECT COUNT(n.id) FROM `t_upsteam_node` n WHERE n.`id` = #{id} AND NOW() &lt; (n.deprecated_time + INTERVAL 5 MINUTE)
+    </select>
+
+</mapper>
