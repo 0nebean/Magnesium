@@ -65,9 +65,16 @@ public class ConfPathHelper {
      * 本地tar路径，绝对路径
      */
     public static String getLocalTarFilePath() {
-        return Paths.get("/opt", "config.tar.gz").toFile().getAbsolutePath();
+        return Paths.get("/opt","tar", "config.tar.gz").toFile().getAbsolutePath();
     }
 
+
+    /**
+     * 本地tar路径，绝对路径
+     */
+    public static String getCleanLocalTarFilePath() {
+        return Paths.get("/opt","tar").toFile().getAbsolutePath();
+    }
     /**
      * 获取log日志的路径，若存在则返回绝对路径，若不存在则返回null
      */

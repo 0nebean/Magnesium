@@ -262,7 +262,7 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
             throw new BusinessException(ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.code(), ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.msg());
         } finally {
             /*删除本地conf 文件*/
-            IOUtils.deleteDir(ConfPathHelper.getLocalTarFilePath());
+            IOUtils.deleteDir(ConfPathHelper.getCleanLocalTarFilePath());
         }
     }
 
