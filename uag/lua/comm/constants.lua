@@ -34,7 +34,7 @@ constants.MYSQL_PASSWORD = "mysql_password";
 constants.configPath = "/usr/local/openresty/nginx/uag/conf/config.json";
 -- uag标识
 constants.UAG = "UAG";
-constants.UAG_HOST_ARRAY = "preuag.onebean.net,uag.onebean.net";
+constants.UAG_HOST_ARRAY = "prepreuag.onebean.net,preuag.onebean.net";
 
 -- begin，openapi相关内容
 constants.OPENAPI_ACCESSTOKEN_KEY = constants.UAG .. ":OPENAPI:ACCESSTOKEN";

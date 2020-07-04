@@ -47,10 +47,10 @@
             <artifactId>net.onebean.api.mngt.api</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>net.onebean</groupId>-->
-<!--            <artifactId>net.onebean.sso.sdk</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>net.onebean</groupId>
+            <artifactId>net.onebean.sso.sdk</artifactId>
+        </dependency>
     </dependencies>
 
 

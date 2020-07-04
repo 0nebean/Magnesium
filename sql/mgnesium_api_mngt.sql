@@ -130,7 +130,7 @@ CREATE TABLE `t_server_info` (
 
 /*Data for the table `t_server_info` */
 
-insert  into `t_server_info`(`id`,`server_name`,`deploy_type`,`upsteam_node_name`,`selected_version`,`is_front`,`is_ssl`,`listen_port`,`ssl_listen_port`,`server_host`,`ssl_crt_key_path`,`ssl_crt_path`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'USER-MNGT','1','user-mngt','','0','0','','','','','','2020-06-28 16:05:03','2020-07-04 11:31:10',0,'','0'),(2,'API-MNGT','1','api-mngt','','0','0','','','','','','2020-06-28 16:06:00','2020-07-04 11:31:11',0,'','0'),(3,'MNGT-PORTAL','1','mngt-portal','','0','0','','','','','','2020-06-28 16:18:33','2020-07-04 11:31:12',0,'','0');
+insert  into `t_server_info`(`id`,`server_name`,`deploy_type`,`upsteam_node_name`,`selected_version`,`is_front`,`is_ssl`,`listen_port`,`ssl_listen_port`,`server_host`,`ssl_crt_key_path`,`ssl_crt_path`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'USER-MNGT','0','user-mngt','','0','0','','','','','','2020-06-28 16:05:03','2020-07-04 11:31:10',0,'','0'),(2,'API-MNGT','0','api-mngt','','0','0','','','','','','2020-06-28 16:06:00','2020-07-04 11:31:11',0,'','0'),(3,'MNGT-PORTAL','0','mngt-portal','','0','0','','','','','','2020-06-28 16:18:33','2020-07-04 11:31:12',0,'','0');
 
 /*Table structure for table `t_server_machine_node` */
 
@@ -195,7 +195,7 @@ CREATE TABLE `t_upsteam_name` (
 
 /*Data for the table `t_upsteam_name` */
 
-insert  into `t_upsteam_name`(`id`,`deploy_type`,`upsteam_name`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (6,'1','user-mngt','2020-07-03 11:12:46','2020-07-03 11:12:46',0,'','0'),(7,'1','api-mngt','2020-07-03 11:14:07','2020-07-03 11:14:07',0,'','0'),(8,'1','mngt-portal','2020-07-03 11:32:58','2020-07-03 11:32:58',0,'','0');
+insert  into `t_upsteam_name`(`id`,`deploy_type`,`upsteam_name`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (6,'0','user-mngt','2020-07-03 11:12:46','2020-07-03 11:12:46',0,'','0'),(7,'0','api-mngt','2020-07-03 11:14:07','2020-07-03 11:14:07',0,'','0'),(8,'0','mngt-portal','2020-07-03 11:32:58','2020-07-03 11:32:58',0,'','0');
 
 /*Table structure for table `t_upsteam_node` */
 
