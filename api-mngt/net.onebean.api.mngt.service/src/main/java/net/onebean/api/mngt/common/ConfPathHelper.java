@@ -65,7 +65,7 @@ public class ConfPathHelper {
      * 本地tar路径，绝对路径
      */
     public static String getLocalTarFilePath() {
-        return Paths.get(ConfPathHelper.getLocalBasePath(), "config.tar.gz").toFile().getAbsolutePath();
+        return Paths.get("/opt", "config.tar.gz").toFile().getAbsolutePath();
     }
 
     /**
