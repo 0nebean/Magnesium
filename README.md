@@ -25,7 +25,6 @@
   - 独立的user-auth体系，针对平台上接入的每个应用单独分表，提供独立却不臃肿的用户体系,省去重复开发
   - 基于Kubernetes的完整devops工具链，提供基于openresty的Kubernetes流量路由组件，一键部署，版本热切换
   - 图形化的nginx配置工具，配置域名和证书信息无需离开中台的页面
-  - 为[`SaaS系统 Sodium`](https://0nebean.github.io/Sodium/)租户信息管理下发提供一站式的入口(选装功能)
  
 Documentation
 ---
