@@ -29,7 +29,3 @@
 Documentation
 ---
 [Magnesium Documentation](https://github.com/0nebean/Magnesium/wiki)
-
-控制台预览：
-![](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/img/62.png)
-![](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/img/61.png)
