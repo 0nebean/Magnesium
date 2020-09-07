@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
@@ -104,7 +105,6 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
         /*当需要同步reload时候*/
         if (isSync) {
             shellsCommand.exec("/usr/local/openresty/nginx/sbin/nginx -s reload");
-            shellsCommand.exec("rm -rf "+ConfPathHelper.getRemoteHostConfDir()+"/*.log");
             return;
         }
 
@@ -262,7 +262,10 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
             throw new BusinessException(ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.code(), ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.msg());
         } finally {
             /*删除本地conf 文件*/
-            IOUtils.deleteDir(ConfPathHelper.getCleanLocalTarFilePath());
+            File file = new File(ConfPathHelper.getLocalTarFilePath());
+            if (!file.exists()) {
+                IOUtils.deleteDir(ConfPathHelper.getLocalTarFilePath());
+            }
         }
     }
 

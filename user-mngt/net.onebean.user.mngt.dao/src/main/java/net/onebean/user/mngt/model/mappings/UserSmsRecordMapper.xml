@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--author 0neBean-->
+<!--description 短信发送记录 mapper-->
+<!--date 2020-07-13 13:18:19-->
+<mapper namespace="net.onebean.user.mngt.dao.UserSmsRecordDao">
+
+        <sql id="basicFiled">
+                t.id,
+                t.uag_id, 
+                t.phone_number, 
+                t.context, 
+                t.create_time, 
+                t.update_time, 
+                t.operator_id, 
+                t.operator_name, 
+                t.is_deleted
+        </sql>
+
+        <resultMap id="basicResultMap" type="net.onebean.user.mngt.model.UserSmsRecord">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+                <result column="uag_id" jdbcType="INTEGER" property="uagId"/>
+                <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+                <result column="context" jdbcType="VARCHAR" property="context"/>
+                <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+                <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+                <result column="operator_id" jdbcType="INTEGER" property="operatorId"/>
+                <result column="operator_name" jdbcType="VARCHAR" property="operatorName"/>
+                <result column="is_deleted" jdbcType="CHAR" property="isDeleted"/>
+        </resultMap>
+
+
+</mapper>

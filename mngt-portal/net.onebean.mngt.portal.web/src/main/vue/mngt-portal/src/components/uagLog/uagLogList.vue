@@ -93,7 +93,6 @@ export default {
         }
       },
       columns: [
-        { title: '应用名称', key: 'appName' },
         { title: '操作项', key: 'operatorDescription' },
         { title: '操作时间', key: 'createTime' },
         { title: '操作人', key: 'operatorName' }

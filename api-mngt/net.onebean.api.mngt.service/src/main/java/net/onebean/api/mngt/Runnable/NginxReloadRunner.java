@@ -49,7 +49,6 @@ public class NginxReloadRunner implements Runnable {
             lockService.lock(lock);
             UpgradeNginxConfServiceImpl.reloadStatus.put(host, true);
             shellsCommand.exec("/usr/local/openresty/nginx/sbin/nginx -s reload");
-            shellsCommand.exec("rm -rf "+ ConfPathHelper.getRemoteHostConfDir()+"/*.log");
             logger.info("reload nginx succeeded. Remote nginx server is {}", host);
         } catch (Exception e) {
             logger.error("reload nginx failed. Remote nginx server is " + host, e);

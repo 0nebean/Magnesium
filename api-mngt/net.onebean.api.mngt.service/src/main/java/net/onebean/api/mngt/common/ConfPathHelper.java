@@ -27,12 +27,6 @@ public class ConfPathHelper {
         return Paths.get(ConfPathHelper.getLocalBasePath(), "front").toFile().getAbsolutePath();
     }
 
-    /**
-     * 获取conf.d文件夹路径,绝对路径
-     */
-    public static String getRemoteHostConfDir() {
-        return Paths.get(ConfPathHelper.getLocalBasePath(), "front").toString();
-    }
 
     /**
      * 获取远程删除路径
@@ -69,12 +63,6 @@ public class ConfPathHelper {
     }
 
 
-    /**
-     * 本地tar路径，绝对路径
-     */
-    public static String getCleanLocalTarFilePath() {
-        return Paths.get("/opt","tar").toFile().getAbsolutePath();
-    }
     /**
      * 获取log日志的路径，若存在则返回绝对路径，若不存在则返回null
      */
