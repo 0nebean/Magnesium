@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--author Icc-->
+<!--description 私有令牌应用 mapper-->
+<!--date 2020-07-03 21:15:42-->
+<mapper namespace="net.onebean.gateway.dao.PrivateAuthAppInfoDao">
+
+        <sql id="basicFiled">
+                t.id,
+                t.app_name, 
+                t.app_id,
+                t.create_time, 
+                t.update_time, 
+                t.operator_id, 
+                t.operator_name, 
+                t.is_deleted
+        </sql>
+
+        <resultMap id="basicResultMap" type="net.onebean.gateway.model.PrivateAuthAppInfo">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+                <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+                <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+                <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+                <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+                <result column="operator_id" jdbcType="INTEGER" property="operatorId"/>
+                <result column="operator_name" jdbcType="VARCHAR" property="operatorName"/>
+                <result column="is_deleted" jdbcType="CHAR" property="isDeleted"/>
+        </resultMap>
+
+
+</mapper>
