@@ -11,8 +11,8 @@ server {
     ssl_certificate_key ${hostNode.sslCrtKeyPath};
 </#if>
 
-    access_log /usr/local/openresty/nginx/uag/logs/front/${hostNode.upsteamNodeName}-access.log;
-    error_log  /usr/local/openresty/nginx/uag/logs/front/${hostNode.upsteamNodeName}-error.log debug;
+    access_log /usr/local/openresty/nginx/uag/conf/front/logs/${hostNode.upsteamNodeName}-access.log;
+    error_log  /usr/local/openresty/nginx/uag/conf/front/logs/${hostNode.upsteamNodeName}-error.log debug;
 
     location / {
     <#if hostNode.programType == '0'>

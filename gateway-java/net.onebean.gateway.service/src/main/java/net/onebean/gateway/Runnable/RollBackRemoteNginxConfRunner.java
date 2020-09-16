@@ -24,16 +24,18 @@ public class RollBackRemoteNginxConfRunner implements Runnable {
     private List<String> coverEntities;
     private List<String> removeEntities;
     private String remoteBackupPath;
+    private String remoteDeletePath;
     private Set<String> flagSet;
 
 
-    public RollBackRemoteNginxConfRunner(CountDownLatch latch, ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String remoteBackupPath, Set<String> flagSet) {
+    public RollBackRemoteNginxConfRunner(CountDownLatch latch, ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities,String remoteDeletePath, String remoteBackupPath, Set<String> flagSet) {
         super();
         this.latch = latch;
         this.serverMachineNodeSyncVo = nginxInfo;
         this.coverEntities = coverEntities;
         this.removeEntities = removeEntities;
         this.remoteBackupPath = remoteBackupPath;
+        this.remoteDeletePath = remoteDeletePath;
         this.flagSet = flagSet;
     }
 
@@ -41,7 +43,7 @@ public class RollBackRemoteNginxConfRunner implements Runnable {
     public void run() {
         try {
             nginxConfUpDateService = SpringUtil.getBean(UpgradeNginxConfServiceImpl.class);
-            nginxConfUpDateService.rollBackRemoteNginxConf(serverMachineNodeSyncVo, coverEntities, removeEntities, remoteBackupPath);
+            nginxConfUpDateService.rollBackRemoteNginxConf(serverMachineNodeSyncVo, coverEntities, removeEntities,remoteDeletePath, remoteBackupPath);
             flagSet.add("1");
         } catch (Exception e) {
             flagSet.add("0");

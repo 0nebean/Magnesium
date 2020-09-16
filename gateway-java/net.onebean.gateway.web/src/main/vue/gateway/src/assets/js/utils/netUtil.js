@@ -88,7 +88,7 @@ axios.defaults.headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json'
 }
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 50000
 
 export default {
   postAsync: async function (url, param) {

@@ -15,8 +15,10 @@ public interface UpgradeNginxConfService {
      * 删除远程nginx服务器上的配置
      * @param shellsCommand shell命令行
      * @param removeEntities 需要删除的条目，相对路径，例如 /conf.d/tenant/xxxx/tenant.conf
+     * @param deletePath 删除文件的存放路径
+     * @param uagConfPath 网关配置的路径
      */
-    void deleteRemoteNginxConf(ShellsCommand shellsCommand, List<String> removeEntities, String uagConfPath);
+    void deleteRemoteNginxConf(ShellsCommand shellsCommand, List<String> removeEntities,String deletePath, String uagConfPath);
     /**
      * 普通情况下的reload
      * @param shellsCommand shell命令行
@@ -35,25 +37,29 @@ public interface UpgradeNginxConfService {
      * @param nginxInfo 单个nginx配置
      * @param coverEntities 需要覆盖的条目
      * @param removeEntities 需要删除的条目，相对路径，例如 /conf.d/tenant/xxxx/tenant.conf
+     * @param deletePath 服务器上的删除路径
      * @param backupPath 删除的条目备份路径
      */
-    void rollBackRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String backupPath);
+    void rollBackRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String deletePath, String backupPath);
     /**
      * 回滚所有机器上的nginx配置
      * @param coverFiles 需要覆盖的文件
      * @param removeFiles 需要删除的文件
      * @param nginxInfos nginx配置list
+     * @param deletePath 服务器上的删除路径
+     * @param backupPath 服务器上的备份路径
      * @throws InterruptedException
      */
-    void rollBackAllRemoteNginxConf(List<String> coverFiles, List<String> removeFiles, List<ServerMachineNodeSyncVo> nginxInfos, String backupPath) throws InterruptedException;
+    void rollBackAllRemoteNginxConf(List<String> coverFiles, List<String> removeFiles, List<ServerMachineNodeSyncVo> nginxInfos, String deletePath, String backupPath) throws InterruptedException;
     /**
      *  更新单台nginx配置文件
      * @param coverEntities 需要覆盖的条目
      * @param removeEntities 需要删除的条目，相对路径，例如 /conf.d/tenant/xxxx/tenant.conf
+     * @param deletePath 服务器上的删除路径
      * @param backupPath 服务器上的备份路径
      * @param isSync 是否同步
      */
-    void updateSingleRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String backupPath, boolean isSync);
+    void updateSingleRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String deletePath,String backupPath, boolean isSync);
     /**
      *  更新所有nginx服务
      * @param coverFiles 需要覆盖的文件

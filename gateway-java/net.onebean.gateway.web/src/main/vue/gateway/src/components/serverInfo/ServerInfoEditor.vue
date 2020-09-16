@@ -224,8 +224,8 @@ export default {
         serverHost: [
           {
             required: true,
-            pattern: /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/,
-            message: '域名由英文字母,数字开头可以包含符号[-]',
+            pattern: /^([A-Za-z0-9]+[-]?[A-Za-z0-9]+[.]{1}[A-Za-z0-9]+[-]?[A-Za-z0-9]+[.]{1}[A-Za-z0-9]+[\s]?)+$/,
+            message: '域名由英文字母,数字开头可以包含符号[-],多个域名用空格分隔',
             trigger: 'blur'
           }
         ],

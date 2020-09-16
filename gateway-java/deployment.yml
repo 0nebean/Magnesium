@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gateway-deployment-kubernetes_version
+  namespace: onebean-func
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: gateway-kubernetes_version
+    spec:
+      hostAliases:
+      containers:
+        - name: gateway-pod-kubernetes_version
+          image: nexus.onebean.net:5000/gateway:latest
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_OPT
+              value: "default_vm_args"
+          ports:
+            - containerPort: 8080
+          lifecycle:
+            postStart:
+              httpGet:
+                host: uag-host
+                path: devops/addNode?nodeName=gateway&currentVersion=latest&nodeNamespace=onebean-func
+                port: uag-port
+                scheme: HTTP
+      imagePullSecrets:
+        - name: secret-register-auth

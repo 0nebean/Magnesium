@@ -48,9 +48,9 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
         logger.info("Backup remote nginx conf start. Remote nginx server is {}", shellsCommand.getConfig().getHost());
         try {
             String destinationPath = backupPath + "/conf.d";
-            shellsCommand.exec("mkdir -p " + destinationPath + ";cp -rf " + uagConfPath + "/conf.d " + backupPath + "/conf.d ");
+            shellsCommand.exec("mkdir -p " + destinationPath + ";cp -rf " + uagConfPath + "/conf.d " + backupPath);
             destinationPath = backupPath + "/front";
-            shellsCommand.exec("mkdir -p " + destinationPath + ";cp -rf " + uagConfPath + "/front " + backupPath + "/front ");
+            shellsCommand.exec("mkdir -p " + destinationPath + ";cp -rf " + uagConfPath + "/front " + backupPath);
         } catch (BusinessException e) { // 此备份异常暂时只捕获打印日志
             logger.warn("backup remote nginx conf exception. Remote nginx server is " + shellsCommand.getConfig().getHost(), e);
         }
@@ -58,24 +58,22 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
         return backupPath;
     }
 
-    public void deleteRemoteNginxConf(ShellsCommand shellsCommand, List<String> removeEntities, String uagConfPath) {
+    public void deleteRemoteNginxConf(ShellsCommand shellsCommand, List<String> removeEntities,String deletePath, String uagConfPath) {
         /*该删除操作只是按照时间创建temp文件夹  将文件归置到该目录下*/
         if (CollectionUtil.isEmpty(removeEntities)) {
             logger.warn("Delete remote nginx conf method ,the param removeEntities is none.");
             return;
         }
-        // remove
-        String tmp = ConfPathHelper.getRemoteDeletePath() + "/" + DateUtils.getDetailTime();
         int i = 0;
         StringBuilder removePaths = new StringBuilder();
         Iterator<String> iterator = removeEntities.iterator();
         if (iterator.hasNext()) {
             String iterPath = "";
             while (iterator.hasNext()) {
-                i++;
-                String tmpBak = tmp + "/" + i;
+                String tmpBak = deletePath + "/" + i;
                 iterPath = uagConfPath+"/"+iterator.next();
                 removePaths.append(" ; test -e ").append(iterPath).append(" &&  mkdir -p " + tmpBak).append(" && mv -f ").append(iterPath).append(" ").append(tmpBak).append(" || echo 'file not exit ,do nothing !' ");
+                i++;
             }
         }
         try {
@@ -88,10 +86,10 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
     public void reloadNginx(ShellsCommand shellsCommand, String backupPath, boolean isSync) throws BusinessException {
         /*reload nginx 向上抛出业务异常*/
         reloadNginxForRollBack(shellsCommand, isSync);
-
         try {
             /*reload成功后，把刚才备份的文件夹删除*/
-            shellsCommand.exec("mv " + backupPath + " " + ConfPathHelper.getRemoteDeletePath());
+            shellsCommand.exec("mv " + backupPath + " " + backupPath+"-bak");
+            shellsCommand.exec("mv " + backupPath + "-bak " + ConfPathHelper.getRemoteDeletePath());
         } catch (BusinessException e) { // 此删除异常暂时只捕获打印日志
             logger.warn("remove remote nginx conf exception. Remote nginx server is " + shellsCommand.getConfig().getHost(), e);
         }
@@ -121,12 +119,12 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
     }
 
 
-    public void rollBackAllRemoteNginxConf(List<String> coverFiles, List<String> removeFiles, List<ServerMachineNodeSyncVo> nginxInfos, String backupPath) throws InterruptedException {
+    public void rollBackAllRemoteNginxConf(List<String> coverFiles, List<String> removeFiles, List<ServerMachineNodeSyncVo> nginxInfos, String deletePath, String backupPath) throws InterruptedException {
         /*用线程的方式回滚所有nginx机器配置*/
         CountDownLatch rollBackLatch = new CountDownLatch(nginxInfos.size());
         Set<String> rollBackFlagSet = new HashSet<>();
         for (ServerMachineNodeSyncVo nginxInfo : nginxInfos) {
-            RollBackRemoteNginxConfRunner runner = new RollBackRemoteNginxConfRunner(rollBackLatch, nginxInfo, coverFiles, removeFiles, backupPath, rollBackFlagSet);
+            RollBackRemoteNginxConfRunner runner = new RollBackRemoteNginxConfRunner(rollBackLatch, nginxInfo, coverFiles, removeFiles,deletePath, backupPath, rollBackFlagSet);
             TaskExecutors.UAGTHREADPOOL.execute(runner);
         }
         rollBackLatch.await();
@@ -136,7 +134,7 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
         }
     }
 
-    public void rollBackRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String backupPath) {
+    public void rollBackRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String deletePath, String backupPath) {
         ShellsCommand shellsCommand = jschApiService.getShellsCommand(nginxInfo);
         logger.info("Roll back remote nginx conf start. Remote nginx server is {}", shellsCommand.getConfig().getHost());
         //将涉及到更新的目录删除，然后将备份目录中的相关目录覆盖过来,然后再将删除文件全部还原回来
@@ -157,23 +155,21 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
                 logger.info("uagConfPath = " + uagConfPath);
                 logger.info("coverEntity = " + coverEntity);
                 String subRemoveTmpPath = removeTmpPath + "/" + i++;
-                removeCommand.append("mkdir -p ").append(subRemoveTmpPath).append(";").append("mv ").append(coverEntity).append(" ").append(subRemoveTmpPath).append(";");
-                copyCommand.append("mkdir ").append(IOUtils.getPathOfFile(coverEntity)).append(";");
-                copyCommand.append("cp -rf ").append(backupPath).append("/").append(coverEntity).append(" ").append(coverEntity).append(";");
+                removeCommand.append("mkdir -p ").append(subRemoveTmpPath).append(";").append("mv ").append(uagConfPath).append("/").append(coverEntity).append(" ").append(subRemoveTmpPath).append(";");
+                copyCommand.append("mkdir -p ").append(uagConfPath).append(IOUtils.getPathOfFile(coverEntity)).append(";");
+                copyCommand.append("cp -rf ").append(backupPath).append("/").append(coverEntity).append(" ").append(uagConfPath).append("/").append(coverEntity).append(";");
             }
         }
         if (null != removeEntities) {
+            i = 0;
             for (String removeEntity : removeEntities) {
                 if (removeEntity.contains("*")) {
                     throw new BusinessException(ErrorCodesEnum.INVALID_OPERATION_LINUX_PATH.code(), ErrorCodesEnum.INVALID_OPERATION_LINUX_PATH.msg());
                 }
-
                 logger.info("uagConfPath = " + uagConfPath);
                 logger.info("coverEntity = " + removeEntity);
-                copyCommand.append("mkdir -p ").append(IOUtils.getPathOfFile(removeEntity)).append(";");
-                // remove destination entity first
-                copyCommand.append("mv ").append(removeEntity).append(" ").append(removeTmpPath).append("/").append(i++).append(";");
-                copyCommand.append("cp -rf ").append(backupPath).append("/").append(removeEntity).append(" ").append(removeEntity).append(";");
+                copyCommand.append("mkdir -p ").append(uagConfPath).append(IOUtils.getPathOfFile(removeEntity)).append(";");
+                copyCommand.append("mv ").append(deletePath).append("/").append(i++).append("/*").append(" ").append(uagConfPath).append(IOUtils.getPathOfFile(removeEntity)).append(";");
             }
         }
         String finalCommand = removeCommand.append(copyCommand.toString()).toString().replace("\\", "/");
@@ -192,13 +188,14 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
 
 
     @Override
-    public void updateSingleRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities, String backupPath, boolean isSync) {
+    public void updateSingleRemoteNginxConf(ServerMachineNodeSyncVo nginxInfo, List<String> coverEntities, List<String> removeEntities,String deletePath, String backupPath, boolean isSync) {
         /*获取shell 命令行*/
         ShellsCommand remoteNginxShells = jschApiService.getShellsCommand(nginxInfo);
         logger.info("Update single remote nginx server , nginx ip is {}", remoteNginxShells.getConfig().getHost());
         String remoteBackupPath;
         String uagConfPath;
         try {
+            remoteNginxShells.exec("mkdir -p /tmp/uag/backup && mkdir -p /tmp/uag/delete && mkdir -p /opt/tar");
             uagConfPath = ConfPathHelper.getLocalBasePath();
             if (StringUtils.isEmpty(uagConfPath)) {
                 throw new BusinessException(ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.code(), ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.msg() + " uagConfPath is empty");
@@ -207,17 +204,15 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
             remoteBackupPath = backupRemoteNginxConf(remoteNginxShells, backupPath, uagConfPath);
             /*删除必要的条目*/
             if (CollectionUtil.isNotEmpty(removeEntities)) {
-                deleteRemoteNginxConf(remoteNginxShells, removeEntities, uagConfPath);
+                deleteRemoteNginxConf(remoteNginxShells, removeEntities,deletePath, uagConfPath);
             }
-
-
             /*remote push  将本地打包文件推送到远程nginx上*/
             logger.info("Pushing local files to nginx server , nginx ip is {}", remoteNginxShells.getConfig().getHost());
             remoteNginxShells.scp(ConfPathHelper.getLocalTarFilePath(), uagConfPath);
             /*使用最新的配置进行覆盖*/
             remoteNginxShells.exec("tar xf " + uagConfPath + "/config.tar.gz -C " + uagConfPath);
-            reloadNginx(remoteNginxShells, remoteBackupPath, isSync);
             /*校验nginx和重新reload*/
+            reloadNginx(remoteNginxShells, remoteBackupPath, isSync);
         } catch (Exception e) {
             logger.error("updateSingleRemoteNginxConf get error = ", e);
             throw new BusinessException(ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.code(), ErrorCodesEnum.UPDATE_NGINX_SAFE_ROLL_BACK_ERROR.msg() + "update single remote nginx conf error." + e.getMessage());
@@ -227,9 +222,7 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
 
     @Override
     public void updateAllRemoteNginxConf(List<String> coverFiles, List<String> removeFiles, boolean isSync) {
-
         try {
-
             /*获取所有需要更新的nginx服务器*/
             List<ServerMachineNodeSyncVo> nginxInfos = findAllNginxSyncNode();
             /*逻辑上至少有一台nginx 程序才成立,否则报错*/
@@ -239,19 +232,19 @@ public class UpgradeNginxConfServiceImpl implements UpgradeNginxConfService {
 
             /*所有远程nginx机器上备份的目录*/
             String backupPath = ConfPathHelper.getRemoteBackupPath();
-
+            String deletePath = ConfPathHelper.getRemoteDeletePath() + "/" + DateUtils.getDetailTime()+"-del";
             /*用线程的方式更新每一台机器的nginx*/
             CountDownLatch updateLatch = new CountDownLatch(nginxInfos.size());
             Set<String> updateFlagSet = new HashSet<>();
             for (ServerMachineNodeSyncVo nginxInfo : nginxInfos) {
-                UpdateSingleRemoteNginxConfRunner runner = new UpdateSingleRemoteNginxConfRunner(updateLatch, nginxInfo, coverFiles, removeFiles, updateFlagSet, backupPath, isSync);
+                UpdateSingleRemoteNginxConfRunner runner = new UpdateSingleRemoteNginxConfRunner(updateLatch, nginxInfo, coverFiles, removeFiles, updateFlagSet,deletePath, backupPath, isSync);
                 TaskExecutors.UAGTHREADPOOL.execute(runner);
             }
             updateLatch.await();
 
             /*如果出现失败的情况 进行回滚*/
             if (updateFlagSet.contains(RunnerExecStatusEnum.FAILURE.getKey())) {
-                rollBackAllRemoteNginxConf(coverFiles, removeFiles, nginxInfos, backupPath);
+                rollBackAllRemoteNginxConf(coverFiles, removeFiles, nginxInfos,deletePath, backupPath);
                 throw new BusinessException(ErrorCodesEnum.UPDATE_NGINX_UN_ROLL_BACK_ERROR.code(), ErrorCodesEnum.UPDATE_NGINX_UN_ROLL_BACK_ERROR.msg());
             }
         } catch (BusinessException e) {

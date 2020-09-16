@@ -2,6 +2,7 @@ package net.onebean.gateway.common;
 
 import net.onebean.core.error.BusinessException;
 import net.onebean.util.DateUtils;
+import net.onebean.util.IOUtils;
 import net.onebean.util.PropUtil;
 import net.onebean.util.StringUtils;
 
@@ -28,6 +29,20 @@ public class ConfPathHelper {
     }
 
     /**
+     * 获取log日志的路径，若存在则返回绝对路径，若不存在则返回null
+     */
+    public static String getLocalFrontLogPath() {
+        return Paths.get(ConfPathHelper.getLocalBasePath(),"front","logs").toFile().getAbsolutePath();
+    }
+
+    /**
+     * 获取log日志的路径，若存在则返回绝对路径，若不存在则返回null
+     */
+    public static String getLocalLogPath() {
+        return Paths.get(ConfPathHelper.getLocalBasePath().replace("conf","logs")).toFile().getAbsolutePath();
+    }
+
+    /**
      * 获取远程删除路径
      */
     public static String getRemoteDeletePath() {
@@ -36,6 +51,15 @@ public class ConfPathHelper {
             throw new BusinessException(ErrorCodesEnum.READ_APOLLO_ERROR.code(), ErrorCodesEnum.READ_APOLLO_ERROR.msg());
         }
         return deletePath;
+    }
+
+    /**
+     * 返回产生conf文件的根路径
+     */
+    public static String getUagPath() {
+        String uagPath = getLocalBasePath();
+        uagPath = uagPath.replace("/conf","");
+        return uagPath;
     }
 
 
@@ -60,14 +84,6 @@ public class ConfPathHelper {
     public static String getLocalTarFilePath() {
         return Paths.get("/opt","tar", "config.tar.gz").toFile().getAbsolutePath();
     }
-
-    /**
-     * 获取log日志的路径，若存在则返回绝对路径，若不存在则返回null
-     */
-    public static String getLocalLogPath() {
-        return Paths.get(ConfPathHelper.getLocalBasePath().replace("conf","logs"),"front").toFile().getAbsolutePath();
-    }
-
 
     /*获取服务器上相对路径*/
     public static String getEcsRelativePath(String path) {
