@@ -29,7 +29,7 @@
 
 Documentation
 ---
-[Magnesium Documentation](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium_2.x.md)
+[Magnesium Documentation](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/2.0.1/documentation.md)
 
 控制台预览：
 ![](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/img/62.png)
