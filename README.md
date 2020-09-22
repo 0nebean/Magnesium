@@ -1,4 +1,4 @@
-[![GitHub release](https://img.shields.io/badge/release-1.0.0-28a745.svg)](https://github.com/0nebean/com.alibaba.druid-0nebean.custom/releases)
+[![GitHub release](https://img.shields.io/badge/release-2.0.1-28a745.svg)](https://github.com/0nebean/com.alibaba.druid-0nebean.custom/releases)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ![](https://img.shields.io/badge/belong_to-chemical--el-yellowgreen.svg)
