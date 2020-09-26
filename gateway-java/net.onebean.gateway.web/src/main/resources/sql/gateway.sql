@@ -1,9 +1,8 @@
 /*
 SQLyog Ultimate v12.09 (64 bit)
-MySQL - 5.7.30 : Database - gateway
+MySQL - 5.7.31 : Database - gateway
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -34,7 +33,7 @@ CREATE TABLE `t_api_info` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='接口信息';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='接口信息';
 
 /*Data for the table `t_api_info` */
 
@@ -54,7 +53,7 @@ CREATE TABLE `t_app_api` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COMMENT='应用接口关联关系';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='应用接口关联关系';
 
 /*Data for the table `t_app_api` */
 
@@ -80,11 +79,11 @@ CREATE TABLE `t_app_info` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='应用信息';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='应用信息';
 
 /*Data for the table `t_app_info` */
 
-insert  into `t_app_info`(`id`,`login_type`,`auth_type`,`inner_api_token`,`open_id`,`secret`,`app_name`,`app_status`,`oauth_base_url`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'2','1','','93331756853','38bbe9398a1fcecf3f820a0a90d4c110','GATEWAY','0','http://192.168.1.5:8070/#','2020-06-29 07:09:17','2020-07-31 23:42:22',0,'','0');
+insert  into `t_app_info`(`id`,`login_type`,`auth_type`,`inner_api_token`,`open_id`,`secret`,`app_name`,`app_status`,`oauth_base_url`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'2','1','','93331756853','38bbe9398a1fcecf3f820a0a90d4c110','GATEWAY','0','','2020-06-29 07:09:17','2020-09-26 13:26:49',0,'','0');
 
 /*Table structure for table `t_ip_white_list` */
 
@@ -130,7 +129,7 @@ CREATE TABLE `t_server_info` (
 
 /*Data for the table `t_server_info` */
 
-insert  into `t_server_info`(`id`,`server_name`,`deploy_type`,`upsteam_node_name`,`selected_version`,`is_front`,`is_ssl`,`listen_port`,`ssl_listen_port`,`server_host`,`ssl_crt_key_path`,`ssl_crt_path`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (3,'GATEWAY','0','gateway','','1','0','8070','','192.168.1.5','','','2020-06-29 07:18:33','2020-07-05 02:31:12',0,'','0');
+insert  into `t_server_info`(`id`,`server_name`,`deploy_type`,`upsteam_node_name`,`selected_version`,`is_front`,`is_ssl`,`listen_port`,`ssl_listen_port`,`server_host`,`ssl_crt_key_path`,`ssl_crt_path`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (3,'GATEWAY','0','','','0','0','','','','','','2020-06-29 07:18:33','2020-09-26 13:26:25',2,'admin','0');
 
 /*Table structure for table `t_server_machine_node` */
 
@@ -151,11 +150,9 @@ CREATE TABLE `t_server_machine_node` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_server_machine_node` */
-
-insert  into `t_server_machine_node`(`id`,`ip_address`,`access_user`,`access_password`,`access_rsa_path`,`access_port`,`access_auth_type`,`server_machine_type`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (3,'192.168.1.5','root','123456','','22','0','0','2020-07-13 11:10:42','2020-08-01 04:13:27',0,'','0');
 
 /*Table structure for table `t_un_login_access_api_white_list` */
 
@@ -173,7 +170,7 @@ CREATE TABLE `t_un_login_access_api_white_list` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='易开伙伴未登录访问接口白名单';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='易开伙伴未登录访问接口白名单';
 
 /*Data for the table `t_un_login_access_api_white_list` */
 
@@ -193,11 +190,11 @@ CREATE TABLE `t_upsteam_name` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_upsteam_name` */
 
-insert  into `t_upsteam_name`(`id`,`deploy_type`,`upsteam_name`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (11,'0','gateway','2020-07-31 23:35:15','2020-07-31 23:35:15',0,'','0');
+insert  into `t_upsteam_name`(`id`,`deploy_type`,`upsteam_name`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (13,'0','gateway','2020-09-16 01:23:48','2020-09-26 13:47:17',0,'','0');
 
 /*Table structure for table `t_upsteam_node` */
 
@@ -221,11 +218,11 @@ CREATE TABLE `t_upsteam_node` (
   `operator_name` varchar(64) NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_upsteam_node` */
 
-insert  into `t_upsteam_node`(`id`,`node_name`,`node_namespace`,`selected_version`,`current_version`,`deploy_type`,`physical_path`,`file_path`,`running_status`,`program_type`,`create_time`,`update_time`,`deprecated_time`,`operator_id`,`operator_name`,`is_deleted`) values (21,'gateway','','','','0','127.0.0.1:8080','/asa/asa','0','1','2020-07-31 23:36:03','2020-08-01 02:01:48','2020-07-31 23:36:03',0,'','0');
+insert  into `t_upsteam_node`(`id`,`node_name`,`node_namespace`,`selected_version`,`current_version`,`deploy_type`,`physical_path`,`file_path`,`running_status`,`program_type`,`create_time`,`update_time`,`deprecated_time`,`operator_id`,`operator_name`,`is_deleted`) values (23,'gateway','','','','0','192.168.146.153:30399','','0','1','2020-09-16 01:23:48','2020-09-26 13:46:10','2020-09-16 01:25:35',0,'','0');
 
 /*Table structure for table `uag_operator_log` */
 
@@ -241,9 +238,11 @@ CREATE TABLE `uag_operator_log` (
   `operator_name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '',
   `is_deleted` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志';
 
 /*Data for the table `uag_operator_log` */
+
+insert  into `uag_operator_log`(`id`,`app_name`,`operator_description`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'','??????','2020-09-26 13:43:05','2020-09-26 13:43:05',0,'','0'),(2,'','??????','2020-09-26 13:44:53','2020-09-26 13:44:53',0,'','0');
 
 /*Table structure for table `uag_user_info_` */
 
@@ -283,11 +282,11 @@ CREATE TABLE `uag_user_info_93331756853` (
   `operator_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `uag_user_info_93331756853` */
 
-insert  into `uag_user_info_93331756853`(`id`,`username`,`password`,`is_lock`,`nick_name`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'18888888888','ca67a20746c8d0f7101d631e087c49c7fbdfb07766f51b4b5895b9183c995a09a2abcbc7e9d3a813','0','admin','2020-07-13 11:19:16','2020-07-13 11:19:16',0,'','0');
+insert  into `uag_user_info_93331756853`(`id`,`username`,`password`,`is_lock`,`nick_name`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (2,'15800000001','175dd6aba1197091f912928a3c38974e4e71e03c2e1bc53d4621643d3b9e145e0c78c6a524416ef3','0','0neBean','2020-08-20 23:31:43','2020-08-20 23:31:43',0,'admin','0');
 
 /*Table structure for table `uag_user_private_auth_app_info` */
 
@@ -303,11 +302,11 @@ CREATE TABLE `uag_user_private_auth_app_info` (
   `operator_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人姓名',
   `is_deleted` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '逻辑删除,0否1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `uag_user_private_auth_app_info` */
 
-insert  into `uag_user_private_auth_app_info`(`id`,`app_name`,`app_id`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'MNGT-PORTAL','93331756853','2020-07-04 13:28:51','2020-07-04 13:28:51',0,'','0'),(2,'onebean-APP','94884616980','2020-07-16 15:30:17','2020-07-16 15:30:17',0,'','0');
+insert  into `uag_user_private_auth_app_info`(`id`,`app_name`,`app_id`,`create_time`,`update_time`,`operator_id`,`operator_name`,`is_deleted`) values (1,'MNGT-PORTAL','93331756853','2020-07-04 13:28:51','2020-07-04 13:28:51',0,'','0');
 
 /*Table structure for table `uag_user_sms_record` */
 
