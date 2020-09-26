@@ -31,8 +31,8 @@ server {
     listen ${hostNode.listenPort};
     server_name ${hostNode.serverHost};
 
-    access_log /usr/local/openresty/nginx/uag/logs/front/${hostNode.upsteamNodeName}-access.log;
-    error_log  /usr/local/openresty/nginx/uag/logs/front/${hostNode.upsteamNodeName}-error.log debug;
+    access_log /usr/local/openresty/nginx/uag/conf/front/logs/${hostNode.upsteamNodeName}-access.log;
+    error_log  /usr/local/openresty/nginx/uag/conf/front/logs/${hostNode.upsteamNodeName}-error.log debug;
 
     return      301 https://$server_name$request_uri;
 

@@ -1,6 +1,7 @@
 package net.onebean.spring;
 
-import net.onebean.core.extend.ApolloConfInitializer;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
+import net.onebean.core.extend.ConfigInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -31,9 +32,10 @@ import org.springframework.stereotype.Service;
                 @ComponentScan.Filter(value = Controller.class, type = FilterType.ANNOTATION)
         })
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableApolloConfig
 public class Main {
     public static void main(String[] args) {
-        ApolloConfInitializer.init();
+        ConfigInitializer.initApollo();
         SpringApplication.run(Main.class, args);
     }
 }

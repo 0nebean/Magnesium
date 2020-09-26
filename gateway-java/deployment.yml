@@ -1,9 +1,14 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway-deployment-kubernetes_version
   namespace: onebean-func
+  labels:
+    app: gateway-kubernetes_version
 spec:
+  selector:
+    matchLabels:
+      app: gateway-kubernetes_version
   replicas: 1
   minReadySeconds: 5
   strategy:
@@ -19,7 +24,7 @@ spec:
       hostAliases:
       containers:
         - name: gateway-pod-kubernetes_version
-          image: nexus.onebean.net:5000/gateway:latest
+          image: harbor.tkfc.com/onebean-func/gateway:latest
           imagePullPolicy: Always
           env:
             - name: JAVA_OPT

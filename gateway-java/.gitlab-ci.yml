@@ -5,7 +5,7 @@ stages:
 
 
 before_script:
-  - who
+  - pwd
   - CI_COMMIT_TAG=${CI_COMMIT_TAG}
   - echo $CI_COMMIT_TAG
 
@@ -17,7 +17,6 @@ maven-build:
   tags:
     - java
   script:
-    - pwd
     - mvn test
 
 
@@ -32,10 +31,10 @@ docker-build:
     - mvn clean package -f ./pom.xml -P $env
     - tar -zxvf ./net.onebean.gateway.web/target/server-$env.tar.gz -C ./app
     - cp $JAVA_HOME/jre/lib/security/cacerts ./app    
-    - docker login nexus.onebean.net:5000 -u=admin -p='43118vu0r647VlfZaw3087d31U6ea1'
-    - docker build -t nexus.onebean.net:5000/gateway:${CI_COMMIT_TAG} .
-    - docker push nexus.onebean.net:5000/gateway:${CI_COMMIT_TAG}
-    - docker rmi nexus.onebean.net:5000/gateway:${CI_COMMIT_TAG}
+    - docker login harbor.tkfc.com -u=admin --password-stdin < /usr/program/nexus-profile/passwd
+    - docker build -t harbor.tkfc.com/onebean-func/gateway:${CI_COMMIT_TAG} .
+    - docker push harbor.tkfc.com/onebean-func/gateway:${CI_COMMIT_TAG}
+    - docker rmi harbor.tkfc.com/onebean-func/gateway:${CI_COMMIT_TAG}
     - rm -rf ./app
 
 
