@@ -158,48 +158,48 @@ ssh-keygen -t rsa
 
 deploy-mian IP + 端口号88
 
-![BreezeScreenShots001](README.assets/BreezeScreenShots001-1601104387630.png)
+![BreezeScreenShots001](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/BreezeScreenShots001-1601104387630.png)
 
 ---
 
 # 4. breeze部署k8s环境
 
 - step-1
-  ![image-20200918112128256](README.assets/image-20200918112128256-1601104387630.png)
+  ![image-20200918112128256](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200918112128256-1601104387630.png)
 
 - step-2
 
-  ![image-20200920224519813](README.assets/image-20200920224519813-1601104387631.png)
+  ![image-20200920224519813](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224519813-1601104387631.png)
 
 
 - step-3
 
-![image-20200920224535735](README.assets/image-20200920224535735-1601104387631.png)
+![image-20200920224535735](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224535735-1601104387631.png)
 
 
 - step-4
 
-![image-20200920224544407](README.assets/image-20200920224544407-1601104387631.png)
+![image-20200920224544407](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224544407-1601104387631.png)
 
 
 - step-5
 
-![image-20200920224604090](README.assets/image-20200920224604090-1601104387631.png)
+![image-20200920224604090](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224604090-1601104387631.png)
 
 
 - step-6
 
-![image-20200920224553400](README.assets/image-20200920224553400-1601104387631.png)
+![image-20200920224553400](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224553400-1601104387631.png)
 
 
 - step-7
 
-![image-20200920224846922](README.assets/image-20200920224846922-1601104387631.png)
+![image-20200920224846922](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224846922-1601104387631.png)
 
 
 - step-8
 
-![image-20200920224819026](README.assets/image-20200920224819026-1601104387631.png)
+![image-20200920224819026](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920224819026-1601104387631.png)
 
 
 - step-9
@@ -295,9 +295,9 @@ UPDATE `ServerConfig` s SET s.`Value` = '[{"orgId":"public-conf","orgName":"公�
 
 请参考 [公用配置文件](https://github.com/0nebean/public.conf/tree/master/conf)
 
-![image-20200918151449448](README.assets/image-20200918151449448-1601104387631.png)
+![image-20200918151449448](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200918151449448-1601104387631.png)
 
-![image-20200918152240010](README.assets/image-20200918152240010-1601104387631.png)
+![image-20200918152240010](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200918152240010-1601104387631.png)
 
 #### 5.2.3.3 修改apollo-mysql配置
 
@@ -344,9 +344,9 @@ docker run -id --privileged=true --name=nexus3 --restart=always -p 8081:8081 -p 
 
 
 
-![image-20200920233641383](README.assets/image-20200920233641383-1601104387631.png)
+![image-20200920233641383](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920233641383-1601104387631.png)
 
-![image-20200920233655882](README.assets/image-20200920233655882-1601104387631.png)
+![image-20200920233655882](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200920233655882-1601104387631.png)
 
 
 将docker仓库的密码，保存到文件，制作镜像推送仓库时，需要用到。
@@ -502,7 +502,7 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 
 chrome 会提示 Dashboard 的https 证书不是有效的证书，如下：
 
-![image-20200919201523111](README.assets/image-20200919201523111-1601104387631.png)
+![image-20200919201523111](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200919201523111-1601104387631.png)
 
 你可以选择继续访问不安全网站，或者设置ssl证书。
 
@@ -735,11 +735,11 @@ echo 'nginx started'
 
 #### 1.6.1.1 创建group 
 
-![image-20200924160825372](README.assets/image-20200924160825372-1601104387631.png)
+![image-20200924160825372](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200924160825372-1601104387631.png)
 
 #### 1.6.1.2 设置CI参数
 
-![image-20200924160905733](README.assets/image-20200924160905733-1601104387631.png)
+![image-20200924160905733](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200924160905733-1601104387631.png)
 
 
 
@@ -748,7 +748,7 @@ echo 'nginx started'
 - DEFAULT_VM_ARGS （jvm参数  需要base64 [ echo 'jvm参数' | base64 ]）
 - KUBE_CONFIG (k8s的 config文件 需要base64 去k8s-master上执行 [ cat /root/.kube/config | base64 ])
 
-![image-20200924173407628](README.assets/image-20200924173407628-1601104387632.png)
+![image-20200924173407628](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200924173407628-1601104387632.png)
 
  这里的CI参数，是和group关联的，也可以给项目单独设置。
 
@@ -756,7 +756,7 @@ echo 'nginx started'
 
 在上一步创建并设置了CI参数的group下，创建项目，并将 `gateway-java` 提交到GitLab。
 
-![image-20200924174100515](README.assets/image-20200924174100515-1601104387632.png)
+![image-20200924174100515](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200924174100515-1601104387632.png)
 
 并将CI的脚本文件放在项目根路径：
 
@@ -914,29 +914,29 @@ ENTRYPOINT /app/server/bin/startup.sh
 
 修改gateway 服务节点访问地址为当前浏览器访问地址。
 
-![image-20200926134449494](README.assets/image-20200926134449494-1601104387632.png)
+![image-20200926134449494](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200926134449494-1601104387632.png)
 
 ### 1.7.3 gateway设置服务访问域名
 
-![image-20200926134924693](README.assets/image-20200926134924693-1601104387632.png)
+![image-20200926134924693](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200926134924693-1601104387632.png)
 
 ### 1.7.4 设置gateway登录回调地址
 
-![image-20200926142658891](README.assets/image-20200926142658891-1601104387632.png)
+![image-20200926142658891](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200926142658891-1601104387632.png)
 
 ### 1.7.5  设置服务器节点
 
 
 
-![image-20200926142820548](README.assets/image-20200926142820548-1601104387632.png)
+![image-20200926142820548](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200926142820548-1601104387632.png)
 
 
 
 ### 1.7.6 同步数据到缓存
 
-![image-20200926142750260](README.assets/image-20200926142750260-1601104387632.png)
+![image-20200926142750260](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200926142750260-1601104387632.png)
 
-![image-20200926142808621](README.assets/image-20200926142808621-1601104387632.png)
+![image-20200926142808621](https://github.com/0nebean/chemical-el/blob/master/src/main/resources/md/magnesium/3.0.0/img/image-20200926142808621-1601104387632.png)
 
 ### 1.7.7 还原sso单点登录配置
 
